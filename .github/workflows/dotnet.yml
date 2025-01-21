@@ -29,7 +29,7 @@ jobs:
 
     - name: Build with MSBuild
       run: |
-       "C:\Program Files\MicrosoftVisualStudio\2022\Professional\MSBuild\Current\Bin\MSBuild.exe" "./WebApplication.sln" /p:Configuration=Release
+       "C:\Program Files\MicrosoftVisualStudio\2022\Professional\MSBuild\Current\Bin\MSBuild.exe" "WebApplication.sln" /p:Configuration=Release
 
   
     

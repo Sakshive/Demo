@@ -29,4 +29,4 @@ jobs:
 
     - name: Build with MSBuild
       run: |
-        msbuild MySolution.sln /p:Configuration=Release
+        msbuild WebApplication.sln /p:Configuration=Release

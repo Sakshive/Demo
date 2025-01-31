@@ -1,35 +1,36 @@
-name: Build .NET Framework Application
+name: Build and Deploy .NET Framework App to Azure Web App
 
 on:
   push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
-
+    branches:
+      - master 
 jobs:
-  build:
-    runs-on: windows-latest
-
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-
-    - name: Install Visual Studio Build Tools
-      run: |
-        choco install visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.NetCoreBuildTools --add Microsoft.VisualStudio.Workload.WebDevelopment --quiet --norestart"
-
-    - name: Setup .NET Framework version
-      run: |
-        # Install the .NET Framework SDK (if needed)
-        # .NET Framework is already included on the Windows runner.
-        echo "Setting up .NET Framework environment"
-
-    - name: Restore NuGet packages
-      run: nuget restore WebApplication.sln
-
-    - name: Build with MSBuild
-      run: |
-       "C:\Program Files\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin\MSBuild.exe" WebApplication.sln /p:Configuration=Release
-
-  
+  build-and-deploy:
+    runs-on: windows-latest 
     
+    steps:
+      # Checkout code from the repository
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Set up .NET Framework SDK on the runner (even though the runner is Windows, it's good to ensure the right version is used)
+      - name: Setup .NET Framework SDK
+        uses: microsoft/setup-msbuild@v1.0.2
+
+      # Build the solution (adjust the path if necessary)
+      - name: Build Solution
+        run: |
+          msbuild WebApplication.sln /p:Configuration=Release
+
+      # # Publish the application (ensure the output folder is correct)
+      # - name: Publish .NET Framework App
+      #   run: |
+      #     msbuild WebApplication.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:PublishDir=./publish
+
+      # # Deploy the app to Azure Web App
+      # - name: Deploy to Azure Web App
+      #   uses: azure/webapps-deploy@v2
+      #   with:
+      #     app-name: <YOUR-AZURE-WEB-APP-NAME>
+      #     publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+      #     package: ./publish

@@ -25,7 +25,7 @@ jobs:
       # Publish the application (ensure the output folder is correct)
       - name: Publish .NET Framework App
         run: |
-          msbuild WebApplication.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile="D:/WebApplicationARM/WebApplication/WebApplication/Properties/PublishProfiles/myapplication17_WebDeploy.pubxml" /p:PublishDir=./publish
+          msbuild WebApplication.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile="D:/WebApplicationARM/WebApplication/WebApplication/Properties/PublishProfiles/myapplication17_WebDeploy.pubxml" /p:PublishDir=./publish /p:WebPublishMethod=FileSystem
 
       # Deploy the app to Azure Web App
       - name: Deploy to Azure Web App
